@@ -1,39 +1,49 @@
 
 
-class CLI < ApiData
+class CLI
 
   def self.run
 
-    self.greet
+    puts "Welcome, human."
 
     puts "This is where the instructions will be."
     puts "--------------------"
 
     while true
 
-      puts "Please enter your name to start a new game or type 'exit' to exit application: "
+      puts "Please enter your name or type 'exit' to exit application: "
       name = gets.chomp
       break if name == "exit"
-      user = self.find_name(name)
-      # puts "#{user}"
+      user = User.find_or_create_by(name: name)
+
+      puts "Welcome, #{user.name}."
       puts "--------------------"
 
-      new_game = CLI.new()
-      # new_round = Round.create(user_id: user.id, game_id: game.id)
 
-      # puts "#{new_round}"
+      while true
+        puts "Press 1 to start new round"
+        puts "Press 2 to check stats"
+        select = gets.chomp.to_i
+        break if select == 1
+        puts "You have played #{user.round_count} rounds."
+        puts "You have #{user.win_count} wins and #{user.loss_count} losses"
+        puts "--------------------"
+        puts "--------------------"
+      end
 
-      puts "The year is #{new_game.get_year}" #1990 is the api_year_value
-      puts "The home team was the #{new_game.get_home_team_name}, and the away team was the #{new_game.get_visitor_team_name}" #api_home_team and #api_away_team
-      puts "The final score was #{new_game.get_score}" #api_home_team_points and api_away_team_points
+      new_game = Game.create_game
+
+      puts "The year is #{new_game.year}" #1990 is the api_year_value
+      puts "The home team was the #{new_game.home_team}, and the away team was the #{new_game.away_team}" #api_home_team and #api_away_team
+      puts "The final score was #{new_game.score}" #api_home_team_points and api_away_team_points
       puts "Who do you think won?"
       puts "--------------------"
 
       while true
         puts "Type your answer or type 'help' for instructions."
         puts "--------------------"
-        winner = new_game.get_winner #winner is Warriors if api_home_team_points > api_away_team_points
-        loser = new_game.get_loser
+        winner = new_game.winner #winner is Warriors if api_home_team_points > api_away_team_points
+        loser = new_game.loser
         input = gets.chomp
 
         break if input == "quit"
@@ -42,11 +52,16 @@ class CLI < ApiData
           puts "You guessed correctly!"
           puts "--------------------"
           puts "--------------------"
+          new_game.save
+          Round.create_round(user.id, new_game.id, true)
           break
         elsif input == loser
           puts "Wrong!!! Do your homework!"
           puts "--------------------"
           puts "--------------------"
+          new_game.save
+          Round.create_round(user.id, new_game.id, false)
+
           break
         elsif input == "help"
           puts "This is where the instructions will be."
@@ -57,22 +72,13 @@ class CLI < ApiData
         end
 
 
+      end
 
-        #Session.create(user_id: <user.id>, game_id: <game.id>)
 
       end
-  end
-
-  end
-
-  def self.find_name(name)
-    User.find_or_create_by(name: name)
-    puts "Welcome, #{name}."
-  end
 
 
-  def self.greet
-    puts "Hello human."
   end
+
 
 end

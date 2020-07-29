@@ -16,14 +16,18 @@ ActiveRecord::Schema.define(version: 3) do
     t.string "home_team"
     t.string "away_team"
     t.string "winner"
-    t.string "box_score"
-    t.integer "season"
-    t.string "day"
+    t.string "loser"
+    t.integer "home_team_score"
+    t.integer "visitor_team_score"
+    t.string "postseason"
+    t.string "score"
+    t.integer "year"
   end
 
   create_table "rounds", force: :cascade do |t|
     t.integer "user_id"
     t.integer "game_id"
+    t.boolean "win?"
   end
 
   create_table "users", force: :cascade do |t|
