@@ -2,16 +2,26 @@
 
 class CLI
 
-  def self.run
+ 
+   def self.run
 
-    puts "Welcome, human."
+     puts "NBA TRIVIA!!!".colorize(:light_cyan).bold
+     puts "***********************"
+        prompt = PROMPT 
+        y_or_n = prompt.yes?('Do you have a profile?')
 
-    puts "This is where the instructions will be."
-    puts "--------------------"
+        if y_or_n == true
+
+        elsif y_or_n == false
+          new_user
+        end
+
+    # puts "This is where the instructions will be."
+    # puts "--------------------"
 
     while true
-
-      puts "Please enter your name or type 'exit' to exit application: "
+      exit = "exit".red 
+      puts "Please enter your name or type #{exit} to exit application: "
       name = gets.chomp
       break if name == "exit"
       user = User.find_or_create_by(name: name)
@@ -38,9 +48,10 @@ class CLI
       puts "The final score was #{new_game.score}" #api_home_team_points and api_away_team_points
       puts "Who do you think won?"
       puts "--------------------"
+      help = "help".yellow
 
       while true
-        puts "Type your answer or type 'help' for instructions."
+        puts "Type your answer or type #{help} for instructions."
         puts "--------------------"
         winner = new_game.winner #winner is Warriors if api_home_team_points > api_away_team_points
         loser = new_game.loser
@@ -64,7 +75,7 @@ class CLI
 
           break
         elsif input == "help"
-          puts "This is where the instructions will be."
+          instructions
           puts "--------------------"
         elsif
           puts "Invalid input. Please try again."
@@ -80,5 +91,24 @@ class CLI
 
   end
 
+
+  def self.instructions
+   puts "WELCOME 2 NBA TRIVIA!!!".blue.underline
+   puts "The rules are simple:".green
+   puts "\n" 
+   puts "We give you some info about a specific NBA game and you tell us who you think won the game?".green
+   puts "Easy enough right?".green
+   puts "Guess correctly and prove your knowledge wizardry! Lets Begin!!!".green
+  end
+
+   def self.new_user
+     instructions
+     puts "/".red * 50
+     prompt = PROMPT
+     login = prompt.select("CreateUsername or Exit", %w(CreateUsername Exit))
+     if login == 'Exit'
+       
+     end
+   end
 
 end
