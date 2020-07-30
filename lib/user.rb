@@ -1,5 +1,4 @@
 
-
 class User < ActiveRecord::Base
   has_many :rounds
   has_many :games, through: :rounds
@@ -10,6 +9,17 @@ class User < ActiveRecord::Base
 
   def round_count
     rounds.count
+  end
+
+  def points
+    points = []
+    rounds.each do |round|
+      if round.win? == true
+        game = Game.find_by(id: round.game_id)
+        points << game.point_value
+      end
+    end
+    points.sum
   end
 
   def wins
@@ -25,7 +35,7 @@ class User < ActiveRecord::Base
   end
 
   def loss_count
-    losses.count 
+    losses.count
   end
 
 end
