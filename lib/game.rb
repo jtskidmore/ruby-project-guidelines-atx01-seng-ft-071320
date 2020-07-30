@@ -5,13 +5,13 @@ class Game < ActiveRecord::Base
   has_many :users, through: :rounds
 
   def self.random_number
-    rand(1..7956)
+    rand(1..6222)
   end
 
   def self.get_game_data_from_api
     game_id = random_number
     url = "https://api-nba-v1.p.rapidapi.com/gameDetails/#{game_id}"
-
+    #VERIFY THE GAME ID IS VALID BEFORE RUNNING SELF.CREATE_GAME
     details_url = URI.parse("https://api-nba-v1.p.rapidapi.com/gameDetails/#{game_id}")
 
     details_http = Net::HTTP.new(details_url.host, details_url.port)
@@ -29,6 +29,10 @@ class Game < ActiveRecord::Base
 
   def self.create_game
     data = get_game_data_from_api
+    until data["api"]["game"][0]["hTeam"]["leaders"][0]["name"] != nil do
+      new_data_request = get_game_data_from_api
+      data = new_data_request
+    end
     new_game = Game.new
     new_game.home_team = get_home_team_name(data)
     new_game.visitor_team = get_visitor_team_name(data)
@@ -63,14 +67,30 @@ class Game < ActiveRecord::Base
     home_team_num1_scorer = data["api"]["game"][0]["hTeam"]["leaders"][0]["name"]
     home_team_num2_scorer = data["api"]["game"][0]["hTeam"]["leaders"][1]["name"]
     home_team_num3_scorer = data["api"]["game"][0]["hTeam"]["leaders"][2]["name"]
-    "#{home_team_num1_scorer}, #{home_team_num2_scorer}, and #{home_team_num3_scorer}"
+    players = [home_team_num1_scorer, home_team_num2_scorer, home_team_num3_scorer].uniq
+    if players.length == 3
+      "#{players[0]}, #{players[1]}, and #{players[2]}"
+    elsif players.length == 2
+      "#{players[0]} and #{players[1]}"
+    elsif players.length == 1
+      "#{players[0]}"
+    elsif players.length == 0
+
+    end
   end
 
   def self.get_visitor_team_top_scorers(data)
     visitor_team_num1_scorer = data["api"]["game"][0]["vTeam"]["leaders"][0]["name"]
     visitor_team_num2_scorer = data["api"]["game"][0]["vTeam"]["leaders"][1]["name"]
     visitor_team_num3_scorer = data["api"]["game"][0]["vTeam"]["leaders"][2]["name"]
-    "#{visitor_team_num1_scorer}, #{visitor_team_num2_scorer}, and #{visitor_team_num3_scorer}"
+    players = [visitor_team_num1_scorer, visitor_team_num2_scorer, visitor_team_num3_scorer].uniq
+    if players.length == 3
+      "#{players[0]}, #{players[1]}, and #{players[2]}"
+    elsif players.length == 2
+      "#{players[0]} and #{players[1]}"
+    elsif players.length == 1
+      "#{players[0]}"
+    end
   end
 
   def self.get_year(data)
@@ -78,7 +98,7 @@ class Game < ActiveRecord::Base
   end
 
   def self.get_score(data)
-    if get_home_team_score(data) > get_visitor_team_score(data)
+    if get_home_team_score(data).to_i > get_visitor_team_score(data).to_i
       "#{get_home_team_score(data)} - #{get_visitor_team_score(data)}"
     else
       "#{get_visitor_team_score(data)} - #{get_home_team_score(data)}"
@@ -86,7 +106,7 @@ class Game < ActiveRecord::Base
   end
 
   def self.get_winner(data)
-    if get_home_team_score(data) > get_visitor_team_score(data)
+    if get_home_team_score(data).to_i > get_visitor_team_score(data).to_i
       get_home_team_name(data)
     else
       get_visitor_team_name(data)
@@ -94,7 +114,7 @@ class Game < ActiveRecord::Base
   end
 
   def self.get_loser(data)
-    if get_home_team_score(data) < get_visitor_team_score(data)
+    if get_home_team_score(data).to_i < get_visitor_team_score(data).to_i
       get_home_team_name(data)
     else
       get_visitor_team_name(data)
