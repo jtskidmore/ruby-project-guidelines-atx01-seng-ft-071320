@@ -12,6 +12,17 @@ class User < ActiveRecord::Base
     rounds.count
   end
 
+  def points
+    points = []
+    rounds.each do |round|
+      if round.win? == true
+        game = Game.find_by(id: round.game_id)
+        points << game.point_value
+      end
+    end
+    points.sum
+  end
+
   def wins
     rounds.where(win?: true)
   end
@@ -25,7 +36,7 @@ class User < ActiveRecord::Base
   end
 
   def loss_count
-    losses.count 
+    losses.count
   end
 
 end

@@ -23,19 +23,26 @@ class CLI
       while true
         puts "Press 1 to start new round"
         puts "Press 2 to check stats"
+        puts "--------------------"
         select = gets.chomp.to_i
         break if select == 1
         puts "You have played #{user.round_count} rounds."
-        puts "You have #{user.win_count} wins and #{user.loss_count} losses"
+        puts "You have #{user.win_count} wins and #{user.loss_count} losses."
+        puts "You have #{user.points} points."
         puts "--------------------"
         puts "--------------------"
       end
 
       new_game = Game.create_game
 
-      puts "The year is #{new_game.year}" #1990 is the api_year_value
-      puts "The home team was the #{new_game.home_team}, and the away team was the #{new_game.away_team}" #api_home_team and #api_away_team
-      puts "The final score was #{new_game.score}" #api_home_team_points and api_away_team_points
+      puts "--------------------"
+      puts "This is a #{new_game.point_value} point question."
+      puts "The year is #{new_game.year}." #1990 is the api_year_value
+      puts "The home team was the #{new_game.home_team}, and the away team was the #{new_game.visitor_team}." #api_home_team and #api_away_team
+      puts "The final score was #{new_game.score}." #api_home_team_points and api_away_team_points
+      puts "The top scorers for the #{new_game.home_team} were: #{new_game.home_team_top_scorers}."
+      puts "The top scorers for the #{new_game.visitor_team} were: #{new_game.visitor_team_top_scorers}."
+      puts "--------------------"
       puts "Who do you think won?"
       puts "--------------------"
 
@@ -56,7 +63,9 @@ class CLI
           Round.create_round(user.id, new_game.id, true)
           break
         elsif input == loser
-          puts "Wrong!!! Do your homework!"
+          puts "--------------------"
+          puts "Incorrect."
+          puts "Better luck next time!"
           puts "--------------------"
           puts "--------------------"
           new_game.save

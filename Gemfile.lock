@@ -16,6 +16,7 @@ GEM
     concurrent-ruby (1.1.6)
     i18n (1.8.5)
       concurrent-ruby (~> 1.0)
+    irb (1.0.0)
     method_source (1.0.0)
     minitest (5.14.1)
     mustermann (1.1.1)
@@ -26,6 +27,7 @@ GEM
     rack (2.2.3)
     rack-protection (2.0.8.1)
       rack
+    rake (13.0.1)
     require_all (3.0.0)
     ruby2_keywords (0.0.2)
     sinatra (2.0.8.1)
@@ -47,7 +49,9 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  irb
   pry
+  rake
   require_all
   sinatra-activerecord
   sqlite3
