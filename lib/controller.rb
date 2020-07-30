@@ -2,11 +2,9 @@
 class Controller
   ######################################### Method that runs all other methods ###############################
  def self.run
-  intro 
-  profile 
+   intro 
+   profile 
  end
-
-
 
  ############################################ ALL OF THE METHODS ###########################################
 
@@ -38,10 +36,11 @@ class Controller
     end
 
     def self.signup
-      sign_up = PROMPT.select("SignUP or Exit", %w(SignUP Back))
+      sign_up = PROMPT.select("\n\n\n", %w(SignUP Back))
         
         if sign_up == "SignUP"
           puts "Please enter a username:"
+          puts "\n" * 3 
           name = gets.chomp
             @@current_user = User.create(name: name)
             main_menu
@@ -82,53 +81,64 @@ class Controller
     end
 
     def self.instructions
-
+        puts "*".light_cyan * 50 
+        puts "*".red * 50
         puts "WELCOME TO NBA TRIVIA!!!".blue.underline
         puts "The rules are simple:".white 
         puts "\n" 
-        puts "We give you some info about a specific NBA game and you tell us who you think won the game?".green
-        puts "Easy enough right?".green
-        puts "Guess correctly and prove your knowledge wizardry! Lets Begin!!!".green
+        puts "We give you some info about a specific NBA game and you tell us who you think won that game?".green
+        puts "If you guess correctly, you're rewarded points based on the difficulty of the question.".green
+        puts "\n"
+        puts "Point System :".light_blue.underline
+        puts "Closely tied games are 3 pointers".white
+        puts "Average games are 2 pointers".white
+        puts "Blowouts (one-sided games) are free-throws(1pt)".white
+        puts "\n"
+        puts "The more you guess correctly, the more your point stats grow!".green 
+        puts "Easy enough right? Let's Begin!!!".green
+        puts "*".red * 50 
+        puts "*".light_cyan * 50 
     end
 
     def self.help 
       instructions
-      puts"*".light_cyan * 40
-      puts"\n"
       prompt = PROMPT
-      options = prompt.select("Start_Game Main_Menu", %w(Start_Game Main_Menu ))
+      options = prompt.select("\n\n", %w(StartGame MainMenu ))
       case options
-      when 'Start_Game'
+      when 'StartGame'
         new_round
-      when 'Main_Menu'
+      when 'MainMenu'
         main_menu
       end
     end
  
     def self.new_user
       instructions
-      puts "/".red * 50
+      puts "/".red * 100
+      puts "\n" * 3 
       prompt = PROMPT
-      login = prompt.select("CreateUsername or Exit", %w(CreateUsername Back))
+      login = prompt.select("Select an Option", %w(CreateUsername Back QuitGame))
       if login == 'CreateUsername'
         signup
       elsif login == 'Back'
         intro
         profile
+      elsif login == 'QuitGame'
+        quit 
       end
     end
 
     def self.intro
           
-          puts"                                                                                                                                                                                                     
-                                                                                              
+          puts"                                                                                                                                                                                                                                                                      
+                                                                                                                                
                                                                                                                                                               
-          _ _ _     _                      _                                          
-          | | | |___| |___ ___ _____ ___   | |_ ___                                         
-          | | | | -_| |  _| . |     | -_|  |  _| . |_ _ _                    
-          |_____|___|_|___|___|_|_|_|___|  |_| |___|_|_|_|
-                                                          
-                                                                                              ".colorize(:red).on_white     
+          _ _ _     _                      _                                                                                     
+          | | | |___| |___ ___ _____ ___   | |_ ___                                                                             
+          | | | | -_| |  _| . |     | -_|  |  _| . |_ _ _                                                                         
+          |_____|___|_|___|___|_|_|_|___|  |_| |___|_|_|_|                                                                        
+                                                                                                                                 
+                                                                                              ".colorize(:red).on_white            
           
           puts "***********************".cyan * 7
           puts "
@@ -189,7 +199,7 @@ class Controller
       print "The home team was the".white 
       print " #{new_game.home_team}".green
       print ", and the away team was the".white
-      print " #{new_game.away_team}".red #api_home_team and #api_away_team
+      print " #{new_game.visitor_team}".red #api_home_team and #api_away_team
       puts "\n" * 2
       print "The final score was".white
       print " #{new_game.score}".light_blue #api_home_team_points and api_away_team_points
@@ -202,6 +212,9 @@ class Controller
       print " #{new_game.visitor_team} were:" 
       print " #{new_game.visitor_team_top_scorers}.". yellow 
       puts"\n" * 2 
+      print "Point value:".white 
+      print " {new_game.point_value}".blue 
+      print " pointer.".white 
       puts "Who do you think won?".white 
       puts "\n" * 2 
       puts "--------------------".light_cyan
