@@ -10,35 +10,36 @@ class Controller
 
 
     def self.main_menu 
-     puts "\n" * 30 
      if @@current_user == nil
             puts "You have to be logged in to play NBA TRIVIA!!! :("
             login
      else
+        puts"\n" * 20
         intro
         puts "Hello #{@@current_user.name.light_blue.bold}!"
         puts "\n" 
-        menu_selection = PROMPT.select("Select an option:", %w(StartNewRound Stats Help LogOut QuitGame))
+        menu_selection = PROMPT.select("Select an option:", ["Start New Round", "Stats", "Help", "Logout", "Quit Game"])
         case menu_selection
-          when 'StartNewRound' 
+          when 'Start New Round' 
             new_round
           when 'Stats'      
             stats
           when 'Help'       
             help 
-          when 'LogOut'    
+          when 'Logout'    
             @@current_user = nil
             main_menu
-          when 'QuitGame'
+          when 'Quit Game'
             quit 
          end
+         puts "\n" * 10 
       end
     end
 
     def self.signup
-      sign_up = PROMPT.select("\n\n\n", %w(SignUP Back))
+      sign_up = PROMPT.select("\n\n\n", ["Signup", "Back"])
         
-        if sign_up == "SignUP"
+        if sign_up == "Signup"
           puts "Please enter a username:"
           puts "\n" * 3 
           name = gets.chomp
@@ -51,7 +52,7 @@ class Controller
     end
 
     def self.login
-       login_or_exit = PROMPT.select("", %w(Login Back))
+       login_or_exit = PROMPT.select("", ["Login", "Back"])
        if login_or_exit == "Login"
           puts "\n" * 5
           find_user = PROMPT.ask("What is your username?".light_cyan, required: true)
@@ -89,13 +90,13 @@ class Controller
         puts "We give you some info about a specific NBA game and you tell us who you think won that game?".green
         puts "If you guess correctly, you're rewarded points based on the difficulty of the question.".green
         puts "\n"
-        puts "Point System :".light_blue.underline
-        puts "Closely tied games are 3 pointers".white
+        puts "Point System:".light_blue.underline
+        puts "Close games are 3 pointers".white
         puts "Average games are 2 pointers".white
-        puts "Blowouts (one-sided games) are free-throws(1pt)".white
+        puts "Blowouts (one-sided games) are free-throws (1 pointer)".white
         puts "\n"
         puts "The more you guess correctly, the more your point stats grow!".green 
-        puts "Easy enough right? Let's Begin!!!".green
+        puts "Easy enough, right? Let's Begin!!!".green
         puts "*".red * 50 
         puts "*".light_cyan * 50 
     end
@@ -103,11 +104,11 @@ class Controller
     def self.help 
       instructions
       prompt = PROMPT
-      option = prompt.select("\n\n", %w(StartGame MainMenu ))
+      option = prompt.select("\n\n", ["Start Game", "Main Menu" ])
       case option
-      when 'StartGame'
+      when 'Start Game'
         new_round
-      when 'MainMenu'
+      when 'Main Menu'
         main_menu
       end
     end
@@ -117,13 +118,13 @@ class Controller
       puts "/".red * 100
       puts "\n" * 3 
       prompt = PROMPT
-      login = prompt.select("Select an Option", %w(CreateUsername Back QuitGame))
-      if login == 'CreateUsername'
+        login = prompt.select("Select an Option", ["Create Username", "Back", "Quit Game"])
+      if login == 'Create Username'
         signup
       elsif login == 'Back'
         intro
         profile
-      elsif login == 'QuitGame'
+      elsif login == 'Quit Game'
         quit 
       end
     end
@@ -136,20 +137,18 @@ class Controller
           _ _ _     _                      _                                                                                     
           | | | |___| |___ ___ _____ ___   | |_ ___                                                                             
           | | | | -_| |  _| . |     | -_|  |  _| . |_ _ _                                                                         
-          |_____|___|_|___|___|_|_|_|___|  |_| |___|_|_|_|                                                                        
-                                                                                                                                 
-                                                                                                                                              ".colorize(:red).on_white            
-          
-          puts "***********************".cyan * 7
-          puts "
-          ███╗   ██╗██████╗  █████╗     ████████╗██████╗ ██╗██╗   ██╗██╗ █████╗     ██╗██╗██╗
-          ████╗  ██║██╔══██╗██╔══██╗    ╚══██╔══╝██╔══██╗██║██║   ██║██║██╔══██╗    ██║██║██║
-          ██╔██╗ ██║██████╔╝███████║       ██║   ██████╔╝██║██║   ██║██║███████║    ██║██║██║
-          ██║╚██╗██║██╔══██╗██╔══██║       ██║   ██╔══██╗██║╚██╗ ██╔╝██║██╔══██║    ╚═╝╚═╝╚═╝
-          ██║ ╚████║██████╔╝██║  ██║       ██║   ██║  ██║██║ ╚████╔╝ ██║██║  ██║    ██╗██╗██╗
-          ╚═╝  ╚═══╝╚═════╝ ╚═╝  ╚═╝       ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═══╝  ╚═╝╚═╝  ╚═╝    ╚═╝╚═╝╚═╝
+          |_____|___|_|___|___|_|_|_|___|  |_| |___|_|_|_|                                                                                                                                                                                                     
+                                                                                                                                              ".colorize(:light_blue)            
+      
+                puts "
+                ███╗   ██╗██████╗  █████╗     ████████╗██████╗ ██╗██╗   ██╗██╗ █████╗     ██╗██╗██╗
+                ████╗  ██║██╔══██╗██╔══██╗    ╚══██╔══╝██╔══██╗██║██║   ██║██║██╔══██╗    ██║██║██║
+                ██╔██╗ ██║██████╔╝███████║       ██║   ██████╔╝██║██║   ██║██║███████║    ██║██║██║
+                ██║╚██╗██║██╔══██╗██╔══██║       ██║   ██╔══██╗██║╚██╗ ██╔╝██║██╔══██║    ╚═╝╚═╝╚═╝
+                ██║ ╚████║██████╔╝██║  ██║       ██║   ██║  ██║██║ ╚████╔╝ ██║██║  ██║    ██╗██╗██╗
+                ╚═╝  ╚═══╝╚═════╝ ╚═╝  ╚═╝       ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═══╝  ╚═╝╚═╝  ╚═╝    ╚═╝╚═╝╚═╝
                                                                                                       ".colorize(:color => :green, :background => :light_grey)
-                                                                                                  
+                puts"\n" * 5                                                                                  
     end
 
     def self.quit
@@ -163,8 +162,8 @@ class Controller
       ╚██████╔╝╚██████╔╝╚██████╔╝██████╔╝██████╔╝   ██║   ███████╗
       ╚═════╝  ╚═════╝  ╚═════╝ ╚═════╝ ╚═════╝    ╚═╝   ╚══════╝
                                       ".green.bold
-      print "\s" * 25,"Play Again Soon!".blue
-      puts "\n" * 10             
+      print "\s" * 25,"Play again soon!".blue
+      puts "\n" * 5            
     end 
 
     def self.stats 
@@ -175,13 +174,13 @@ class Controller
             puts "--------------------" 
             puts "\n"
             prompt = PROMPT
-            option = prompt.select("", %w(StartGame MainMenu ExitGame))
+            option = prompt.select("", ["Start Game", "Main Menu", "Exit Game"])
             case option
-            when 'StartGame'
+            when 'Start Game'
               new_round
-            when 'MainMenu'
+            when 'Main Menu'
               main_menu
-            when 'ExitGame'
+            when 'Exit Game'
               quit
             end
 
@@ -190,10 +189,10 @@ class Controller
 
     def self.new_round
       new_game = Game.create_game
-      puts "\n" * 10
+      puts "\n" * 5
       puts "--------------------".light_cyan
       puts "\n" * 2
-      print "The year is ".white 
+      print "The year was ".white 
       print"#{new_game.year}".blue #1990 is the api_year_value
       puts "\n" * 2
       print "The home team was the".white 
@@ -206,15 +205,16 @@ class Controller
       puts "\n" * 2
       print "The top scorers for the".white 
       print " #{new_game.home_team} were:".white  
-      print " #{new_game.home_team_top_scorers}.". yellow
+      print " #{new_game.home_team_top_scorers}". yellow
       puts "\n" * 2
       print "The top scorers for the".white  
       print " #{new_game.visitor_team} were:" 
-      print " #{new_game.visitor_team_top_scorers}.". yellow 
+      print " #{new_game.visitor_team_top_scorers}". yellow 
       puts"\n" * 2 
       print "Point value:".white 
-      print " {new_game.point_value}".blue 
-      print " pointer.".white 
+      print " #{new_game.point_value}".blue 
+      print " pointer".white 
+      puts"\n" * 2 
       puts "Who do you think won?".white 
       puts "\n" * 2 
       puts "--------------------".light_cyan
@@ -232,30 +232,32 @@ class Controller
       if input == winner
         puts "You guessed correctly!".green.underline
         puts "--------------------"
+        puts " To quit game, return to Main Menu, or select Play Again."
         puts "--------------------"
         new_game.save
         Round.create_round(@@current_user.id, new_game.id, true)
         prompt = PROMPT
-        choice = prompt.select("",%w(PlayAgain Main_Menu))
+        choice = prompt.select("", ["Play Again", "Main Menu"])
         case choice
-        when 'PlayAgain'
+        when 'Play Again'
           new_round
-        when 'Main_Menu'
+        when 'Main Menu'
           main_menu
         end
         
       elsif input == loser
         puts "Wrong!!! Do your homework!".light_red.underline 
         puts "--------------------"
+        puts " To quit game, return to Main Menu, or select Play Again."
         puts "--------------------"
         new_game.save
         Round.create_round(@@current_user.id, new_game.id, false)
         prompt = PROMPT
-        choice = prompt.select("",%w(Play_Again Main_Menu))
+        choice = prompt.select("",["Play Again", "Main Menu"])
           case choice
-            when 'Play_Again'
+            when 'Play Again'
               new_round
-            when 'Main_Menu'
+            when 'Main Menu'
               main_menu
           end
       elsif
