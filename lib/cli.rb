@@ -4,9 +4,8 @@ class CLI
 
  
    def self.run
+    intro
 
-     puts "NBA TRIVIA!!!".colorize(:light_cyan).bold
-     puts "***********************"
         prompt = PROMPT 
         y_or_n = prompt.yes?('Do you have a profile?')
 
@@ -16,9 +15,7 @@ class CLI
           new_user
         end
 
-    # puts "This is where the instructions will be."
-    # puts "--------------------"
-
+  
     while true
       exit = "exit".red 
       puts "Please enter your name or type #{exit} to exit application: "
@@ -93,7 +90,8 @@ class CLI
 
 
   def self.instructions
-   puts "WELCOME 2 NBA TRIVIA!!!".blue.underline
+
+   puts "WELCOME TO NBA TRIVIA!!!".blue.underline
    puts "The rules are simple:".green
    puts "\n" 
    puts "We give you some info about a specific NBA game and you tell us who you think won the game?".green
@@ -110,5 +108,46 @@ class CLI
        
      end
    end
+
+   def self.main
+    puts "\n" * 30
+    if @@current_user == nil
+        puts "You have to be logged in to use IceBreaker :("
+        IceBreaker.login
+    else
+    IceBreaker.banner_icebreaker
+    puts "Hello #{@@current_user.username.light_yellow.bold}!"
+    puts "\n" 
+    menu_selection = PROMPT.select("Select from the following options?", %w(MyIceBreakers RandomIcebreaker DateIcebreaker YearIcebreaker EditMyInfo LogOut))
+
+
+
+
+
+
+   def self.intro
+    # puts              "WELCOME TO".colorize(:light_cyan).bold
+    puts"
+
+                                                
+    _ _ _     _                      _             
+    | | | |___| |___ ___ _____ ___   | |_ ___       
+    | | | | -_| |  _| . |     | -_|  |  _| . |_ _ _ 
+    |_____|___|_|___|___|_|_|_|___|  |_| |___|_|_|_|
+                                                    
+       ".colorize(:red).on_white     
+    
+    puts "***********************".cyan * 6
+    puts "
+    ███╗   ██╗██████╗  █████╗     ████████╗██████╗ ██╗██╗   ██╗██╗ █████╗     ██╗██╗██╗
+    ████╗  ██║██╔══██╗██╔══██╗    ╚══██╔══╝██╔══██╗██║██║   ██║██║██╔══██╗    ██║██║██║
+    ██╔██╗ ██║██████╔╝███████║       ██║   ██████╔╝██║██║   ██║██║███████║    ██║██║██║
+    ██║╚██╗██║██╔══██╗██╔══██║       ██║   ██╔══██╗██║╚██╗ ██╔╝██║██╔══██║    ╚═╝╚═╝╚═╝
+    ██║ ╚████║██████╔╝██║  ██║       ██║   ██║  ██║██║ ╚████╔╝ ██║██║  ██║    ██╗██╗██╗
+    ╚═╝  ╚═══╝╚═════╝ ╚═╝  ╚═╝       ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═══╝  ╚═╝╚═╝  ╚═╝    ╚═╝╚═╝╚═╝
+                                                                                                   ".colorize(:color => :green, :background => :light_grey)
+                                                                                             
+   end
+
 
 end
