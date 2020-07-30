@@ -28,6 +28,7 @@ class CLI
         break if select == 1
         puts "You have played #{user.round_count} rounds."
         puts "You have #{user.win_count} wins and #{user.loss_count} losses."
+        puts "You have #{user.points} points."
         puts "--------------------"
         puts "--------------------"
       end
@@ -35,6 +36,7 @@ class CLI
       new_game = Game.create_game
 
       puts "--------------------"
+      puts "This is a #{new_game.point_value} point question."
       puts "The year is #{new_game.year}." #1990 is the api_year_value
       puts "The home team was the #{new_game.home_team}, and the away team was the #{new_game.visitor_team}." #api_home_team and #api_away_team
       puts "The final score was #{new_game.score}." #api_home_team_points and api_away_team_points

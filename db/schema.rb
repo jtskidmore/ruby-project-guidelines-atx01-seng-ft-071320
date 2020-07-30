@@ -23,6 +23,7 @@ ActiveRecord::Schema.define(version: 3) do
     t.integer "year"
     t.string "home_team_top_scorers"
     t.string "visitor_team_top_scorers"
+    t.integer "point_value"
   end
 
   create_table "rounds", force: :cascade do |t|

@@ -44,6 +44,7 @@ class Game < ActiveRecord::Base
     new_game.year = get_year(data)
     new_game.home_team_top_scorers = get_home_team_top_scorers(data)
     new_game.visitor_team_top_scorers = get_visitor_team_top_scorers(data)
+    new_game.point_value = get_point_value(data)
     new_game
   end
 
@@ -61,6 +62,24 @@ class Game < ActiveRecord::Base
 
   def self.get_visitor_team_score(data)
     data["api"]["game"][0]["vTeam"]["score"]["points"]
+  end
+
+  def self.score_margin(data)
+    if get_home_team_score(data).to_i > get_visitor_team_score(data).to_i
+      get_home_team_score(data).to_i - get_visitor_team_score(data).to_i
+    else
+      get_visitor_team_score(data).to_i - get_home_team_score(data).to_i
+    end
+  end
+
+  def self.get_point_value(data)
+    if score_margin(data) < 5
+      3
+    elsif score_margin(data) >= 5 && score_margin(data) < 20
+      2
+    elsif score_margin(data) >= 20
+      1
+    end
   end
 
   def self.get_home_team_top_scorers(data)
@@ -120,6 +139,7 @@ class Game < ActiveRecord::Base
       get_visitor_team_name(data)
     end
   end
+
 
 
   # def self.random_number

@@ -13,6 +13,7 @@ class CreateGames < ActiveRecord::Migration[5.2]
       t.integer :year
       t.string :home_team_top_scorers
       t.string :visitor_team_top_scorers
+      t.integer :point_value 
     end
   end
 end
