@@ -12,6 +12,7 @@ class Game < ActiveRecord::Base
     game_id = random_number
     url = "https://api-nba-v1.p.rapidapi.com/gameDetails/#{game_id}"
          #VERIFY THE GAME ID IS VALID BEFORE RUNNING SELF.CREATE_GAME
+
     details_url = URI.parse("https://api-nba-v1.p.rapidapi.com/gameDetails/#{game_id}")
 
     details_http = Net::HTTP.new(details_url.host, details_url.port)
@@ -25,7 +26,7 @@ class Game < ActiveRecord::Base
     details_response = details_http.request(details_request)
 
     JSON.parse(details_response.body)
-    
+
   end
 
 
@@ -49,7 +50,6 @@ class Game < ActiveRecord::Base
     new_game.point_value = get_point_value(data)
     new_game
   end
-
 
   def self.get_home_team_name(data)
     data["api"]["game"][0]["hTeam"]["fullName"]
@@ -145,4 +145,3 @@ class Game < ActiveRecord::Base
   end
 
 end
-
