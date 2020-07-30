@@ -1,3 +1,4 @@
+
 class Controller
   ######################################### Method that runs all other methods ###############################
  def self.run
@@ -33,7 +34,8 @@ class Controller
             main_menu
           when 'Quitgame'
             quit 
-          end
+         end
+      end
     end
 
     def self.signup
@@ -137,84 +139,86 @@ class Controller
                                       ".green.bold
       print "\s" * 25,"Play Again Soon!".blue
       puts "\n" * 10             
-  end 
+    end 
 
-  def stats 
-          puts "You have played #{@@current_user.round_count} round(s)."
-          puts "Wins: #{@@current_user.win_count}" 
-          puts "Losses: #{@@current_user.loss_count}"
-          puts "--------------------" 
-          puts "\n"
-          prompt = PROMPT
-          option = prompt.select("", %w(StartGame MainMenu ExitGame))
-          case option
-          when 'StartGame'
-            new_round
-          when 'MainMenu'
-            main_menu
-          when 'ExitGame'
-            quit
-          end
+    def self.stats 
+            puts "You have played #{@@current_user.round_count} round(s)."
+            puts "Wins: #{@@current_user.win_count}" 
+            puts "Losses: #{@@current_user.loss_count}"
+            puts "--------------------" 
+            puts "\n"
+            prompt = PROMPT
+            option = prompt.select("", %w(StartGame MainMenu ExitGame))
+            case option
+            when 'StartGame'
+              new_round
+            when 'MainMenu'
+              main_menu
+            when 'ExitGame'
+              quit
+            end
 
-          puts "--------------------"
-  end
-
-  def new_round
-    new_game = Game.create_game
-    puts "The year is #{new_game.year}" #1990 is the api_year_value
-    puts "The home team was the #{new_game.home_team}, and the away team was the #{new_game.away_team}" #api_home_team and #api_away_team
-    puts "The final score was #{new_game.score}" #api_home_team_points and api_away_team_points
-    puts "Who do you think won?"
-    puts "--------------------"
-    help = "help".yellow
-
-   
-    puts "Type your answer or type #{help} for instructions."
-    puts "--------------------"
-    winner = new_game.winner #winner is Warriors if api_home_team_points > api_away_team_points
-    loser = new_game.loser
-    input = gets.chomp
-
-
-    if input == winner
-      puts "You guessed correctly!"
-      puts "--------------------"
-      puts "--------------------"
-      new_game.save
-      Round.create_round(@@user.id, new_game.id, true)
-      prompt = PROMPT#experimental code
-      option = prompt.select("",%w(Play_Again Main_Menu))#experimental code
-      case option 
-      when 'Play_Again'
-        new_round
-      when 'Main_Menu'
-        main_menu
-      end
-       
-    elsif input == loser
-      puts "Wrong!!! Do your homework!"
-      puts "--------------------"
-      puts "--------------------"
-      new_game.save
-      Round.create_round(@@user.id, new_game.id, false)
-      prompt = PROMPT#experimental code
-      prompt.select("",%w(Play_Again Main_Menu))#experimental code
-        case option 
-          when 'Play_Again'
-            new_round
-          when 'Main_Menu'
-            main_menu
-        end
-    elsif input == "help"
-      instructions
-      puts "--------------------"
-    elsif
-      puts "Invalid input. Please try again."
-      puts "--------------------"
+            puts "--------------------"
     end
 
+    def self.new_round
+      new_game = Game.create_game
+      puts "\n" * 10
+      puts "--------------------".light_cyan
+      puts "The year is #{new_game.year}" #1990 is the api_year_value
+      puts "The home team was the #{new_game.home_team}, and the away team was the #{new_game.away_team}" #api_home_team and #api_away_team
+      puts "The final score was #{new_game.score}" #api_home_team_points and api_away_team_points
+      puts "Who do you think won?"
+      puts "--------------------".light_cyan
+      help = "help".yellow
 
-  end
+    
+      puts "Type your answer or type #{help} for instructions."
+      puts "--------------------"
+      winner = new_game.winner #winner is Warriors if api_home_team_points > api_away_team_points
+      loser = new_game.loser
+      input = gets.chomp
+
+
+      if input == winner
+        puts "You guessed correctly!"
+        puts "--------------------"
+        puts "--------------------"
+        new_game.save
+        Round.create_round(@@current_user.id, new_game.id, true)
+        prompt = PROMPT#experimental code
+        option = prompt.select("",%w(Play_Again Main_Menu))#experimental code
+        case option 
+        when 'Play_Again'
+          new_round
+        when 'Main_Menu'
+          main_menu
+        end
+        
+      elsif input == loser
+        puts "Wrong!!! Do your homework!"
+        puts "--------------------"
+        puts "--------------------"
+        new_game.save
+        Round.create_round(@@current_user.id, new_game.id, false)
+        prompt = PROMPT#experimental code
+        prompt.select("",%w(Play_Again Main_Menu))#experimental code
+          case option 
+            when 'Play_Again'
+              new_round
+            when 'Main_Menu'
+              main_menu
+          end
+      elsif input == "help"
+        instructions
+        puts "--------------------"
+      elsif
+        puts "Invalid input. Please try again."
+        puts "--------------------"
+      end
+
+
+    end
 
 
   
