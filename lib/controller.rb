@@ -183,8 +183,6 @@ class Controller
             when 'Exit game'
               quit
             end
-
-            puts "--------------------"
     end
 
     def self.new_round
