@@ -83,8 +83,8 @@ class Controller
     end
 
     def self.instructions
-        puts "*".light_cyan * 50 
-        puts "*".red * 50
+        puts "*".light_cyan * 100 
+        puts "*".red * 100
         puts "WELCOME TO NBA TRIVIA!!!".blue.underline
         puts "The rules are simple:".white 
         puts "\n" 
@@ -98,11 +98,12 @@ class Controller
         puts "\n"
         puts "The more you guess correctly, the more your point stats grow!".green 
         puts "Easy enough, right? Let's Begin!!!".green
-        puts "*".red * 50 
-        puts "*".light_cyan * 50 
+        puts "*".red * 100
+        puts "*".light_cyan * 100
     end
 
     def self.help 
+      puts"\n" * 50 
       instructions
       prompt = PROMPT
       option = prompt.select("\n\n", ["Start Game", "Main Menu" ])
@@ -116,9 +117,9 @@ class Controller
  
     def self.new_user
       puts "\n" * 35
-      puts "/".white * 50
+      puts "/".white * 100
       instructions
-      puts "/".white * 50
+      puts "/".white * 100
       puts "\n" * 3 
       prompt = PROMPT
         login = prompt.select("Select an Option", ["Create Username", "Back", "Quit Game"])
@@ -143,7 +144,7 @@ class Controller
           | | | |___| |___ ___ _____ ___   | |_ ___                                                                             
           | | | | -_| |  _| . |     | -_|  |  _| . |_ _ _                                                                         
           |_____|___|_|___|___|_|_|_|___|  |_| |___|_|_|_|   ".colorize(:magenta)                                                                                                                                                                                                  
-   puts"=".colorize(:light_cyan) * 100                                                                                                                                                  
+   puts"=".colorize(:light_cyan) * 100                                                                                                                                             
                 puts "
                 ███╗   ██╗██████╗  █████╗     ████████╗██████╗ ██╗██╗   ██╗██╗ █████╗     ██╗██╗██╗
                 ████╗  ██║██╔══██╗██╔══██╗    ╚══██╔══╝██╔══██╗██║██║   ██║██║██╔══██╗    ██║██║██║
@@ -171,7 +172,7 @@ class Controller
     end 
 
     def self.stats 
-            puts "\n" * 45 
+            puts "\n" * 50 
             puts "        STATS       ".bold
             puts "---------------------".magenta
             puts "You have played #{@@current_user.round_count} round(s).".white 
@@ -237,9 +238,9 @@ class Controller
       case choice
         when winner
           puts "\n" * 2
-          puts "**********************".dark_green 
+          puts "**********************".green 
           puts "You guessed correctly!".light_green
-          puts "**********************".dark_green
+          puts "**********************".green
           puts "\n" * 2 
           puts "-----------------------".colorize(:magenta) * 2 
           puts " To quit game, return to Main Menu, or select Play Again."
@@ -256,9 +257,9 @@ class Controller
           end
         when loser
           puts "\n" * 2 
-          puts "**************************".dark_red
-          puts "Wrong!!! Do your homework!".light_red.
-          puts "**************************".dark_red
+          puts "**************************".red
+          puts "Wrong!!! Do your homework!".light_red
+          puts "**************************".red
           puts "\n" * 2
           puts "-------------------------".colorize(:magenta) * 2
           puts " Return to Main Menu to quit game or select Play Again.".white
