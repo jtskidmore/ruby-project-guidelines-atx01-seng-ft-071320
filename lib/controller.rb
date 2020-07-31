@@ -2,46 +2,46 @@
 class Controller
   ######################################### Method that runs all other methods ###############################
  def self.run
-   intro 
-   profile 
+   intro
+   profile
  end
 
  ############################################ ALL OF THE METHODS ###########################################
 
 
-    def self.main_menu 
+    def self.main_menu
      if @@current_user == nil
-            puts "You have to be logged in to play NBA TRIVIA!!! :("
+            puts "You have to be logged in to play NBA TRIVIA :("
             login
      else
         puts"\n" * 20
         intro
         puts "Hello #{@@current_user.name.light_blue.bold}!"
-        puts "\n" 
-        menu_selection = PROMPT.select("Select an option:", ["Start New Round", "Stats", "Help", "Logout", "Quit Game"])
+        puts "\n"
+        menu_selection = PROMPT.select("Select an option:", ["Start new round", "Stats", "Help", "Logout", "Quit game"])
         case menu_selection
-          when 'Start New Round' 
+        when 'Start new round'
             new_round
-          when 'Stats'      
+          when 'Stats'
             stats
-          when 'Help'       
-            help 
-          when 'Logout'    
+          when 'Help'
+            help
+          when 'Logout'
             @@current_user = nil
             main_menu
-          when 'Quit Game'
-            quit 
+          when 'Quit game'
+            quit
          end
-         puts "\n" * 10 
+         puts "\n" * 10
       end
     end
 
     def self.signup
       sign_up = PROMPT.select("\n\n\n", ["Signup", "Back"])
-        
+
         if sign_up == "Signup"
           puts "Please enter a username:"
-          puts "\n" * 3 
+          puts "\n" * 3
           name = gets.chomp
             @@current_user = User.create(name: name)
             main_menu
@@ -58,8 +58,8 @@ class Controller
           find_user = PROMPT.ask("What is your username?".light_cyan, required: true)
           @@current_user = User.find_by(name: find_user)
             if @@current_user == nil
-              puts "User not found".light_red
-              puts "Please try again!"
+              puts "User not found.".light_red
+              puts "Please try again."
               self.login
             else
             main_menu
@@ -71,22 +71,22 @@ class Controller
     end
 
     def self.profile
-        prompt = PROMPT 
+        prompt = PROMPT
         y_or_n = prompt.yes?('Do you have a profile?')
 
         if y_or_n == true
-          login 
+          login
         elsif y_or_n == false
           new_user
         end
     end
 
     def self.instructions
-        puts "*".light_cyan * 50 
+        puts "*".light_cyan * 50
         puts "*".red * 50
-        puts "WELCOME TO NBA TRIVIA!!!".blue.underline
-        puts "The rules are simple:".white 
-        puts "\n" 
+        puts "WELCOME TO NBA TRIVIA!".blue.underline
+        puts "The rules are simple:".white
+        puts "\n"
         puts "We give you some info about a specific NBA game and you tell us who you think won that game?".green
         puts "If you guess correctly, you're rewarded points based on the difficulty of the question.".green
         puts "\n"
@@ -95,51 +95,51 @@ class Controller
         puts "Average games are 2 pointers".white
         puts "Blowouts (one-sided games) are free-throws (1 pointer)".white
         puts "\n"
-        puts "The more you guess correctly, the more your point stats grow!".green 
-        puts "Easy enough, right? Let's Begin!!!".green
-        puts "*".red * 50 
-        puts "*".light_cyan * 50 
+        puts "The more you guess correctly, the more your point stats grow!".green
+        puts "Easy enough, right? Let's begin!".green
+        puts "*".red * 50
+        puts "*".light_cyan * 50
     end
 
-    def self.help 
+    def self.help
       instructions
       prompt = PROMPT
-      option = prompt.select("\n\n", ["Start Game", "Main Menu" ])
+      option = prompt.select("\n\n", ["Start game", "Main Menu" ])
       case option
-      when 'Start Game'
+      when 'Start game'
         new_round
       when 'Main Menu'
         main_menu
       end
     end
- 
+
     def self.new_user
       instructions
       puts "/".red * 100
-      puts "\n" * 3 
+      puts "\n" * 3
       prompt = PROMPT
-        login = prompt.select("Select an Option", ["Create Username", "Back", "Quit Game"])
-      if login == 'Create Username'
+        login = prompt.select("Select an option", ["Create username", "Back", "Quit game"])
+      if login == 'Create username'
         signup
       elsif login == 'Back'
         intro
         profile
-      elsif login == 'Quit Game'
-        quit 
+      elsif login == 'Quit game'
+        quit
       end
     end
 
     def self.intro
-          
-          puts"                                                                                                                                                                                                                                                                      
-                                                                                                                                
-                                                                                                                                                                                                                                                                      
-          _ _ _     _                      _                                                                                     
-          | | | |___| |___ ___ _____ ___   | |_ ___                                                                             
-          | | | | -_| |  _| . |     | -_|  |  _| . |_ _ _                                                                         
-          |_____|___|_|___|___|_|_|_|___|  |_| |___|_|_|_|                                                                                                                                                                                                     
-                                                                                                                                              ".colorize(:light_blue)            
-      
+
+          puts"
+
+
+          _ _ _     _                      _
+          | | | |___| |___ ___ _____ ___   | |_ ___
+          | | | | -_| |  _| . |     | -_|  |  _| . |_ _ _
+          |_____|___|_|___|___|_|_|_|___|  |_| |___|_|_|_|
+                                                                                                                                              ".colorize(:light_blue)
+
                 puts "
                 ███╗   ██╗██████╗  █████╗     ████████╗██████╗ ██╗██╗   ██╗██╗ █████╗     ██╗██╗██╗
                 ████╗  ██║██╔══██╗██╔══██╗    ╚══██╔══╝██╔══██╗██║██║   ██║██║██╔══██╗    ██║██║██║
@@ -148,39 +148,39 @@ class Controller
                 ██║ ╚████║██████╔╝██║  ██║       ██║   ██║  ██║██║ ╚████╔╝ ██║██║  ██║    ██╗██╗██╗
                 ╚═╝  ╚═══╝╚═════╝ ╚═╝  ╚═╝       ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═══╝  ╚═╝╚═╝  ╚═╝    ╚═╝╚═╝╚═╝
                                                                                                       ".colorize(:color => :green, :background => :light_grey)
-                puts"\n" * 5                                                                                  
+                puts"\n" * 5
     end
 
     def self.quit
       puts "\n" * 30
-    
-      puts "                                                
+
+      puts "
       ██████╗  ██████╗  ██████╗ ██████╗ ██████╗ ██╗   ██╗███████╗
       ██╔════╝ ██╔═══██╗██╔═══██╗██╔══██╗██╔══██╗╚██╗ ██╔╝██╔════╝
-      ██║  ███╗██║   ██║██║   ██║██║  ██║██████╔╝ ╚████╔╝ █████╗  
-      ██║   ██║██║   ██║██║   ██║██║  ██║██╔══██╗  ╚██╔╝  ██╔══╝  
+      ██║  ███╗██║   ██║██║   ██║██║  ██║██████╔╝ ╚████╔╝ █████╗
+      ██║   ██║██║   ██║██║   ██║██║  ██║██╔══██╗  ╚██╔╝  ██╔══╝
       ╚██████╔╝╚██████╔╝╚██████╔╝██████╔╝██████╔╝   ██║   ███████╗
       ╚═════╝  ╚═════╝  ╚═════╝ ╚═════╝ ╚═════╝    ╚═╝   ╚══════╝
                                       ".green.bold
       print "\s" * 25,"Play again soon!".blue
-      puts "\n" * 5            
-    end 
+      puts "\n" * 5
+    end
 
-    def self.stats 
-            puts "You have played #{@@current_user.round_count} round(s).".white 
+    def self.stats
+            puts "You have played #{@@current_user.round_count} round(s).".white
             puts "Wins: ""#{@@current_user.win_count}".green
             puts "Losses: ""#{@@current_user.loss_count}".red
             puts "Points: ""#{@@current_user.points}".blue
-            puts "--------------------" 
+            puts "--------------------"
             puts "\n"
             prompt = PROMPT
-            option = prompt.select("", ["Start Game", "Main Menu", "Exit Game"])
+            option = prompt.select("", ["Start game", "Main Menu", "Exit game"])
             case option
-            when 'Start Game'
+            when 'Start game'
               new_round
             when 'Main Menu'
               main_menu
-            when 'Exit Game'
+            when 'Exit game'
               quit
             end
 
@@ -192,10 +192,10 @@ class Controller
       puts "\n" * 5
       puts "--------------------".light_cyan
       puts "\n" * 2
-      print "The year was ".white 
+      print "The year was ".white
       print"#{new_game.year}".blue #1990 is the api_year_value
       puts "\n" * 2
-      print "The home team was the".white 
+      print "The home team was the".white
       print " #{new_game.home_team}".green
       print ", and the away team was the".white
       print " #{new_game.visitor_team}".red #api_home_team and #api_away_team
@@ -203,59 +203,68 @@ class Controller
       print "The final score was".white
       print " #{new_game.score}".light_blue #api_home_team_points and api_away_team_points
       puts "\n" * 2
-      print "The top scorers for the".white 
-      print " #{new_game.home_team} were:".white  
-      print " #{new_game.home_team_top_scorers}". yellow
+      print "The top scorers for the".white
+      print " #{new_game.home_team} were:".white
+      print " #{new_game.home_team_top_scorers}".yellow
       puts "\n" * 2
-      print "The top scorers for the".white  
-      print " #{new_game.visitor_team} were:" 
-      print " #{new_game.visitor_team_top_scorers}". yellow 
-      puts"\n" * 2 
-      print "Point value:".white 
-      print " #{new_game.point_value}".blue 
-      print " pointer".white 
-      puts"\n" * 2 
-      puts "Who do you think won?".white 
-      puts "\n" * 2 
+      print "The top scorers for the".white
+      print " #{new_game.visitor_team} were:".white
+      print " #{new_game.visitor_team_top_scorers}".yellow
+      puts"\n" * 2
+      print "Point value:".white
+      print " #{new_game.point_value}".blue
+      print " pointer".white
+      puts"\n" * 2
+      puts "Who do you think won?".white
+      puts "\n" * 2
       puts "--------------------".light_cyan
-      
 
-    
-      puts "Type your answer below."
+
+
+      puts "Select a team."
       puts "--------------------".light_cyan
       puts "\n" * 2
       winner = new_game.winner #winner is Warriors if api_home_team_points > api_away_team_points
       loser = new_game.loser
-      input = gets.chomp
+      input =
+
+      prompt = PROMPT
+      team_choice = prompt.select("", ["#{new_game.home_team}", "#{new_game.visitor_team}"])
+      case team_choice
+      when "#{new_game.home_team}"
+        input = new_game.home_team
+      when "#{new_game.visitor_team}"
+        input = new_game.visitor_team
+      end
 
 
       if input == winner
-        puts "You guessed correctly!".green.underline
+        puts "You guessed correctly! Nice.".green.bold
         puts "--------------------"
-        puts " To quit game, return to Main Menu, or select Play Again."
+        puts " To quit game, return to Main Menu, or select Play again."
         puts "--------------------"
         new_game.save
         Round.create_round(@@current_user.id, new_game.id, true)
         prompt = PROMPT
-        choice = prompt.select("", ["Play Again", "Main Menu"])
+        choice = prompt.select("", ["Play again", "Main Menu"])
         case choice
-        when 'Play Again'
+        when 'Play again'
           new_round
         when 'Main Menu'
           main_menu
         end
-        
+
       elsif input == loser
-        puts "Wrong!!! Do your homework!".light_red.underline 
+        puts "Wrong! Please do your homework.".light_red.bold
         puts "--------------------"
-        puts " To quit game, return to Main Menu, or select Play Again."
+        puts " To quit game, return to Main Menu, or select 'Play again'."
         puts "--------------------"
         new_game.save
         Round.create_round(@@current_user.id, new_game.id, false)
         prompt = PROMPT
-        choice = prompt.select("",["Play Again", "Main Menu"])
+        choice = prompt.select("",["Play again", "Main Menu"])
           case choice
-            when 'Play Again'
+          when 'Play again'
               new_round
             when 'Main Menu'
               main_menu
@@ -269,6 +278,6 @@ class Controller
     end
 
 
-  
+
 
 end

@@ -11,8 +11,7 @@ class Game < ActiveRecord::Base
   def self.get_game_data_from_api
     game_id = random_number
     url = "https://api-nba-v1.p.rapidapi.com/gameDetails/#{game_id}"
-         #VERIFY THE GAME ID IS VALID BEFORE RUNNING SELF.CREATE_GAME
-
+    
     details_url = URI.parse("https://api-nba-v1.p.rapidapi.com/gameDetails/#{game_id}")
 
     details_http = Net::HTTP.new(details_url.host, details_url.port)
